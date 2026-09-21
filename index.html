@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Un girasol para alguien especial</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; min-height: 100vh; display: flex; justify-content: center; align-items: center;
+      overflow-x: hidden; font-family: "Segoe UI", sans-serif;
+      background: linear-gradient(135deg, #fff3a3, #ffd166, #ffb703);
+    }
+    .contenedor {
+      width: 92%; max-width: 1050px; min-height: 620px; padding: 35px;
+      display: flex; align-items: center; justify-content: space-around; gap: 35px;
+      border-radius: 30px; background: rgba(255,255,255,.38);
+      box-shadow: 0 15px 40px rgba(126,78,0,.25); backdrop-filter: blur(8px);
+    }
+    .lado-girasol { text-align: center; cursor: pointer; user-select: none; }
+    .girasol { position: relative; width: 260px; height: 260px; margin: auto; transition: transform .3s; }
+    .girasol:hover { transform: scale(1.08) rotate(3deg); }
+    .petalo {
+      position: absolute; left: 50%; top: 50%; width: 48px; height: 125px;
+      border-radius: 50%; transform-origin: center bottom;
+      transform: translate(-50%, -100%) rotate(var(--angulo));
+      background: linear-gradient(#ffe45c, #f7a900); box-shadow: 0 3px 8px rgba(137,78,0,.25);
+    }
+    .centro {
+      position: absolute; left: 50%; top: 50%; width: 105px; height: 105px;
+      transform: translate(-50%,-50%); border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%,#956018 0 5%,transparent 6%),radial-gradient(circle at 70% 35%,#6b3d0d 0 5%,transparent 6%),radial-gradient(circle at 40% 70%,#7b470f 0 5%,transparent 6%),radial-gradient(circle at 75% 75%,#4f2c09 0 5%,transparent 6%),#70400c;
+      box-shadow: inset 0 0 0 8px #8b5415;
+    }
+    .tallo { width: 18px; height: 180px; margin: -8px auto 0; border-radius: 20px; background: linear-gradient(90deg,#236b25,#5eaa3b,#236b25); }
+    .hoja { position: absolute; width: 80px; height: 35px; border-radius: 100% 0 100% 0; background: #4d9a32; }
+    .hoja-izquierda { margin: -125px 0 0 calc(50% - 80px); transform: rotate(-25deg); }
+    .hoja-derecha { margin: -25px 0 0 calc(50% + 5px); transform: rotate(25deg) scaleX(-1); }
+    .indicacion { margin-top: 20px; color: #70400c; font-size: 1.1rem; font-weight: bold; }
+    .mensaje { max-width: 500px; padding: 28px; text-align: center; border-radius: 25px; background: rgba(255,255,255,.82); box-shadow: 0 10px 25px rgba(126,78,0,.18); opacity: 0; transform: translateX(35px) scale(.9); transition: all .8s ease; }
+    .mensaje.mostrar { opacity: 1; transform: translateX(0) scale(1); }
+    .corazon-flores { position: relative; width: 310px; height: 260px; margin: 0 auto 10px; }
+    .flor { position: absolute; transform: translate(-50%,-50%); font-size: 28px; filter: drop-shadow(0 3px 2px rgba(128,73,0,.25)); animation: brillar 1.8s infinite ease-in-out; }
+    .flor:nth-child(even) { animation-delay: .3s; }
+    @keyframes brillar { 0%,100% { transform: translate(-50%,-50%) scale(1); } 50% { transform: translate(-50%,-50%) scale(1.18); } }
+    .mensaje h1 { margin: 5px 0 12px; color: #e26d00; font-size: 2rem; }
+    .mensaje p { color: #70400c; font-size: 1.25rem; line-height: 1.5; }
+    .contador-titulo { margin-top: 22px; margin-bottom: 8px; color: #a84c00 !important; font-size: 1rem !important; font-weight: bold; }
+    #contador { padding: 12px; border-radius: 15px; color: #7a4300; font-size: 1.05rem; font-weight: bold; background: #fff1a8; box-shadow: inset 0 0 10px rgba(255,166,0,.25); }
+    .corazon-flotante { position: fixed; z-index: 10; color: #e63946; font-size: 2rem; pointer-events: none; animation: subir 2.5s ease-out forwards; }
+    @keyframes subir { 0% { opacity: 1; transform: translateY(0) scale(.7) rotate(0); } 100% { opacity: 0; transform: translateY(-300px) scale(1.5) rotate(25deg); } }
+    @media (max-width:750px) { .contenedor { flex-direction: column; padding: 25px 12px; } .girasol { transform: scale(.8); margin-bottom: -35px; } .mensaje { width: 100%; } .corazon-flores { transform: scale(.85); margin: -15px auto -20px; } .mensaje h1 { font-size: 1.7rem; } .mensaje p { font-size: 1.1rem; } }
+  </style>
+</head>
+<body>
+  <main class="contenedor">
+    <section class="lado-girasol" id="activar">
+      <div class="girasol">
+        <div class="petalo" style="--angulo:0deg"></div><div class="petalo" style="--angulo:45deg"></div>
+        <div class="petalo" style="--angulo:90deg"></div><div class="petalo" style="--angulo:135deg"></div>
+        <div class="petalo" style="--angulo:180deg"></div><div class="petalo" style="--angulo:225deg"></div>
+        <div class="petalo" style="--angulo:270deg"></div><div class="petalo" style="--angulo:315deg"></div>
+        <div class="centro"></div>
+      </div>
+      <div class="tallo"></div><div class="hoja hoja-izquierda"></div><div class="hoja hoja-derecha"></div>
+      <p class="indicacion">Haz clic en el girasol 🌻</p>
+    </section>
+
+    <section class="mensaje" id="mensaje">
+      <div class="corazon-flores" id="corazonFlores"></div>
+      <h1>Para alguien muy especial</h1>
+      <p>Así como los girasoles buscan la luz, mi corazón siempre encuentra felicidad cuando piensa en ti.</p>
+      <p>Gracias por hacer mis días más bonitos. Me alegra mucho haberte conocido. 💛</p>
+      <p class="contador-titulo">Llevamos conociéndonos:</p>
+      <div id="contador">Cargando contador...</div>
+    </section>
+  </main>
+
+  <script>
+    const fechaInicio = new Date("2026-08-21T10:33:00");
+
+    const girasol = document.getElementById("activar"),
+          mensaje = document.getElementById("mensaje");
+    const contador = document.getElementById("contador"),
+          corazonFlores = document.getElementById("corazonFlores");
+
+    let floresCreadas = false;
+
+    girasol.addEventListener("click", e => {
+      mensaje.classList.add("mostrar");
+      if (!floresCreadas) {
+        crearCorazonDeFlores();
+        floresCreadas = true;
+      }
+      for (let i = 0; i < 12; i++) crearCorazonFlotante(e.clientX, e.clientY);
+    });
+
+    function crearCorazonDeFlores() {
+      for (let i = 0; i < 42; i++) {
+        const t = 2 * Math.PI * i / 42;
+        const x = 16 * Math.sin(t) ** 3;
+        const y = 13 * Math.cos(t) - 5 * Math.cos(2 * t) - 2 * Math.cos(3 * t) - Math.cos(4 * t);
+
+        const flor = document.createElement("span");
+        flor.className = "flor";
+        flor.textContent = i % 3 === 0 ? "🌻" : "🌼";
+        flor.style.left = `${155 + x * 7}px`;
+        flor.style.top = `${130 - y * 7}px`;
+        flor.style.animationDelay = `${i * 0.04}s`;
+        corazonFlores.appendChild(flor);
+      }
+    }
+
+    function crearCorazonFlotante(x, y) {
+      const c = document.createElement("div");
+      c.className = "corazon-flotante";
+      c.textContent = "♥";
+      c.style.left = `${x + Math.random() * 100 - 50}px`;
+      c.style.top = `${y + Math.random() * 40 - 20}px`;
+      c.style.animationDelay = `${Math.random() * 0.5}s`;
+      document.body.appendChild(c);
+      setTimeout(() => c.remove(), 3000);
+    }
+
+    function actualizarContador() {
+      const ahora = new Date();
+      let meses = (ahora.getFullYear() - fechaInicio.getFullYear()) * 12 + (ahora.getMonth() - fechaInicio.getMonth());
+
+      let base = new Date(fechaInicio);
+      base.setMonth(base.getMonth() + meses);
+
+      if (base > ahora) {
+        meses--;
+        base = new Date(fechaInicio);
+        base.setMonth(base.getMonth() + meses);
+      }
+
+      const d = ahora - base;
+      const dias = Math.floor(d / 86400000);
+      const horas = Math.floor(d / 3600000) % 24;
+      const minutos = Math.floor(d / 60000) % 60;
+      const segundos = Math.floor(d / 1000) % 60;
+      const ms = d % 1000;
+
+      contador.innerHTML =
+        `${meses} mes${meses !== 1 ? "es" : ""} ${dias} día${dias !== 1 ? "s" : ""}<br>
+         ${String(horas).padStart(2, "0")} h : ${String(minutos).padStart(2, "0")} min : ${String(segundos).padStart(2, "0")} s : ${String(ms).padStart(3, "0")} ms`;
+    }
+
+    setInterval(actualizarContador, 10);
+    actualizarContador();
+  </script>
+</body>
+</html>
